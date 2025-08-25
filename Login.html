@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - MEDeLIFE</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .main-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding-top: 40px;
+    }
+
+    .login-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .logo {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .logo span.red { color: red; }
+    .logo span.black { color: black; }
+    .logo span.green { color: green; }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin: 0.75rem 0 0.25rem;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    .forgot-link {
+      text-align: right;
+      font-size: 0.9rem;
+      margin-top: -8px;
+      margin-bottom: 10px;
+    }
+
+    .forgot-link a {
+      color: #007BFF;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .forgot-link a:hover {
+      text-decoration: underline;
+    }
+
+    button[type="submit"] {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.8rem;
+      background-color: green; /* Green */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: green;
+      transform: scale(1.02);
+    }
+
+    #reset-section {
+      display: none;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    #reset-section input {
+      margin-bottom: 0.5rem;
+    }
+
+    #reset-section button {
+      padding: 0.6rem 1.2rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #reset-section button:hover {
+      background-color: #0056b3;
+    }
+
+    .signup-link {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .signup-link a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 1.5rem;
+      }
+
+      .logo {
+        font-size: 16px;
+        top: 8px;
+        left: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+  <form class="login-container" action="connect/login.php" method="POST">
+    <div class="logo">
+      <span class="red">MED</span><span class="black">e</span><span class="green">LIFE</span>
+    </div>
+
+    <h2>Login</h2>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required />
+
+    <label for="password">Password</label>
+    <div class="input-group">
+      <input type="password" id="password" name="password" required />
+      <span class="toggle-password" onclick="toggleVisibility('password')">👁</span>
+    </div>
+
+    <!-- Forgot Password Link -->
+    <div class="forgot-link">
+      <a onclick="toggleReset()">Forgot Password?</a>
+    </div>
+
+    <!-- Login Button -->
+    <button type="submit">Login</button>
+
+    <!-- Reset Password Section -->
+    <div id="reset-section">
+      <p><strong>Reset Password</strong></p>
+      <input type="email" id="reset-email" placeholder="Enter your email" required />
+      <button type="button" onclick="sendReset()">Send Reset Link</button>
+    </div>
+
+    <!-- Sign Up Link -->
+    <div class="signup-link">
+      Don't have an account? <a href="signup.html">Sign Up</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  function toggleVisibility(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+  }
+
+  function toggleReset() {
+    const section = document.getElementById("reset-section");
+    section.style.display = section.style.display === "block" ? "none" : "block";
+  }
+
+  function sendReset() {
+    const email = document.getElementById("reset-email").value;
+    if (!email) {
+      alert("Please enter your email.");
+    } else {
+      alert("Password reset link sent to " + email + " (simulation).");
+    }
+  }
+</script>
+
+</body>
+</html>

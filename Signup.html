@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - MEDeLIFE</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .main-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding-top: 40px;
+    }
+
+    .signup-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+    }
+
+    .logo {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .logo span.red { color: red; }
+    .logo span.black { color: black; }
+    .logo span.green { color: green; }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin: 0.75rem 0 0.25rem;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    .send-button {
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
+      color: #007BFF;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    button[type="submit"] {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.8rem;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: green;
+    }
+
+    @media (max-width: 480px) {
+      .signup-container {
+        padding: 1.5rem;
+      }
+
+      .logo {
+        font-size: 16px;
+        top: 8px;
+        left: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+  <form class="signup-container" action="connect/signup.php" method="POST">
+    <div class="logo">
+      <span class="red">MED</span><span class="black">e</span><span class="green">LIFE</span>
+    </div>
+
+    <h2>Sign Up</h2>
+
+    <!-- Account Type Dropdown -->
+    <label for="accountType">Account Type</label>
+    <select id="accountType" name="accountType" required onchange="showExtraFields(this.value)">
+      <option value="">Select Account Type</option>
+      <option value="Doctor">Doctor</option>
+      <option value="Patient">Patient</option>
+      <option value="Institution">Institution</option>
+      <option value="Pharmacy">Pharmacy</option>
+    </select>
+
+    <!-- Common Fields -->
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required />
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" name="phone" required pattern="[0-9]{10,15}" />
+    <button type="button" class="send-button" onclick="sendCode()">Send Verification Code</button>
+
+    <!-- Dynamic Fields Container -->
+    <div id="extraFields"></div>
+
+    <!-- Passwords -->
+    <label for="password">Password</label>
+    <div class="input-group">
+      <input type="password" id="password" name="password" required minlength="6" />
+      <span class="toggle-password" onclick="toggleVisibility('password')">👁</span>
+    </div>
+
+    <label for="confirm_password">Confirm Password</label>
+    <div class="input-group">
+      <input type="password" id="confirm_password" name="confirm_password" required />
+      <span class="toggle-password" onclick="toggleVisibility('confirm_password')">👁</span>
+    </div>
+
+    <button type="submit">Register</button>
+  </form>
+</div>
+
+<script>
+  function toggleVisibility(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+  }
+
+  function sendCode() {
+    const phone = document.getElementById("phone").value;
+    if (phone.length < 10) {
+      alert("Please enter a valid phone number.");
+    } else {
+      alert("Verification code sent to " + phone + " (simulation).");
+    }
+  }
+
+  function showExtraFields(type) {
+    const container = document.getElementById('extraFields');
+    container.innerHTML = '';
+
+    if (type === 'Doctor') {
+      container.innerHTML = `
+        <label for="regno">Registration Number</label>
+        <input type="text" id="regno" name="regno" required />
+
+        <label for="qualification">Qualification</label>
+        <input type="text" id="qualification" name="qualification" required />
+
+        <label for="specialist">Specialist</label>
+        <select id="specialist" name="specialist" required>
+          <option value="">Select Specialist</option>
+          <option value="Cardiologist">Cardiologist</option>
+          <option value="Neurologist">Neurologist</option>
+          <option value="Dentist">Dentist</option>
+          <option value="Orthopedic">Orthopedic</option>
+          <option value="Psychiatrist">Psychiatrist</option>
+        </select>
+      `;
+    }
+
+    if (type === 'Patient') {
+      container.innerHTML = `
+        <label for="idType">ID Type</label>
+        <select id="idType" name="idType" required>
+          <option value="">Select ID Type</option>
+          <option value="Passport">Passport</option>
+          <option value="IC">IC</option>
+          <option value="NID">NID</option>
+        </select>
+
+        <label for="idNumber">ID Number</label>
+        <input type="text" id="idNumber" name="idNumber" required />
+      `;
+    }
+
+    if (type === 'Institution') {
+      container.innerHTML = `
+        <label for="licence">Licence / Reg. Number</label>
+        <input type="text" id="licence" name="licence" required />
+      `;
+    }
+  }
+</script>
+</body>
+</html>
